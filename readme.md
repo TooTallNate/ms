@@ -1,30 +1,43 @@
 # ms
-
 [![Build Status](https://travis-ci.org/zeit/ms.svg?branch=master)](https://travis-ci.org/zeit/ms)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/zeit)
 
-Use this package to easily convert various time formats to milliseconds.
+Easily convert various time format string to milliseconds, or format milliseconds
+into a human-readable time format string.
+
+## Usage
+
+For Node.js or a web browser:
+
+```typescript
+import ms from 'ms';
+```
+
+For Deno:
+
+```typescript
+import ms from 'https://denopkg.com/vercel/ms/ms.ts';
+```
 
 ## Examples
 
-```js
-ms('2 days')  // 172800000
-ms('1d')      // 86400000
-ms('10h')     // 36000000
-ms('2.5 hrs') // 9000000
-ms('2h')      // 7200000
-ms('1m')      // 60000
-ms('5s')      // 5000
-ms('1y')      // 31557600000
-ms('100')     // 100
-ms('-3 days') // -259200000
-ms('-1h')     // -3600000
-ms('-200')    // -200
+```typescript
+ms('2 days')     // 172800000
+ms('1d')         // 86400000
+ms('10h')        // 36000000
+ms('2.5 hrs')    // 9000000
+ms('2h')         // 7200000
+ms('1m')         // 60000
+ms('5s')         // 5000
+ms('1y')         // 31557600000
+ms('100')        // 100
+ms('-3 days')    // -259200000
+ms('-1h')        // -3600000
+ms('-200')       // -200
 ```
 
 ### Convert from Milliseconds
 
-```js
+```typescript
 ms(60000)             // "1m"
 ms(2 * 60000)         // "2m"
 ms(-3 * 60000)        // "-3m"
@@ -33,7 +46,7 @@ ms(ms('10 hours'))    // "10h"
 
 ### Time Format Written-Out
 
-```js
+```typescript
 ms(60000, { long: true })             // "1 minute"
 ms(2 * 60000, { long: true })         // "2 minutes"
 ms(-3 * 60000, { long: true })        // "-3 minutes"
@@ -42,7 +55,7 @@ ms(ms('10 hours'), { long: true })    // "10 hours"
 
 ## Features
 
-- Works both in [Node.js](https://nodejs.org) and in the browser
+- Works in [Node.js](https://nodejs.org), [Deno](https://deno.land) and the browser
 - If a number is supplied to `ms`, a string with a unit is returned
 - If a string that contains the number is supplied, it returns it as a number (e.g.: it returns `100` for `'100'`)
 - If you pass a string with a number and a valid unit, the number of equivalent milliseconds is returned

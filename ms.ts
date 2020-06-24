@@ -1,13 +1,18 @@
 /**
- * Helpers.
+ * Constants.
  */
+const s = 1000;
+const m = s * 60;
+const h = m * 60;
+const d = h * 24;
+const w = d * 7;
+const y = d * 365.25;
 
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var w = d * 7;
-var y = d * 365.25;
+export interface ParseOptions {}
+
+export interface FormatOptions {
+  long?: boolean;
+}
 
 /**
  * Parse or format the given `val`.
@@ -22,39 +27,41 @@ var y = d * 365.25;
  * @return {String|Number}
  * @api public
  */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isFinite(val)) {
-    return options.long ? fmtLong(val) : fmtShort(val);
+function ms(val: string, options?: ParseOptions): number;
+function ms(val: number, options?: FormatOptions): string;
+function ms(
+  val: string | number,
+  options: ParseOptions | FormatOptions = {}
+): string | number {
+  if (typeof val === 'string' && val.length > 0) {
+    return parse(val, options);
+  } else if (typeof val === 'number' && isFinite(val)) {
+    return format(val, options);
   }
   throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
+    '`val` is not a non-empty string or a valid number. val=' +
       JSON.stringify(val)
   );
-};
+}
+export default ms;
 
 /**
  * Parse the given `str` and return milliseconds.
  *
  * @param {String} str
  * @return {Number}
- * @api private
+ * @api public
  */
-
-function parse(str) {
+export function parse(str: string, options: ParseOptions = {}): number {
   str = String(str);
   if (str.length > 100) {
-    return;
+    return NaN;
   }
   var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
     str
   );
   if (!match) {
-    return;
+    return NaN;
   }
   var n = parseFloat(match[1]);
   var type = (match[2] || 'ms').toLowerCase();
@@ -98,8 +105,19 @@ function parse(str) {
     case 'ms':
       return n;
     default:
-      return undefined;
+      return NaN;
   }
+}
+
+/**
+ * Format `ms` into a human readable string.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api public
+ */
+export function format(ms: number, options: FormatOptions = {}): string {
+  return options.long ? fmtLong(ms) : fmtShort(ms);
 }
 
 /**
@@ -109,8 +127,7 @@ function parse(str) {
  * @return {String}
  * @api private
  */
-
-function fmtShort(ms) {
+function fmtShort(ms: number): string {
   var msAbs = Math.abs(ms);
   if (msAbs >= d) {
     return Math.round(ms / d) + 'd';
@@ -134,8 +151,7 @@ function fmtShort(ms) {
  * @return {String}
  * @api private
  */
-
-function fmtLong(ms) {
+function fmtLong(ms: number): string {
   var msAbs = Math.abs(ms);
   if (msAbs >= d) {
     return plural(ms, msAbs, d, 'day');
@@ -155,8 +171,7 @@ function fmtLong(ms) {
 /**
  * Pluralization helper.
  */
-
-function plural(ms, msAbs, n, name) {
+function plural(ms: number, msAbs: number, n: number, name: string): string {
   var isPlural = msAbs >= n * 1.5;
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }

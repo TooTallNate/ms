@@ -15,7 +15,7 @@ import ms from 'ms';
 For Deno:
 
 ```typescript
-import ms from 'https://denopkg.com/vercel/ms/ms.ts';
+import ms from 'https://denopkg.com/vercel/ms';
 ```
 
 ## Examples

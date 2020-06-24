@@ -13,6 +13,7 @@ function ms(
 namespace ms {
   export type ParseOptions = msImpl.ParseOptions;
   export type FormatOptions = msImpl.FormatOptions;
+  export const ms = msImpl.ms;
   export const parse = msImpl.parse;
   export const format = msImpl.format;
 }

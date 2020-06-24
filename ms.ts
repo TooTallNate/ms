@@ -27,9 +27,9 @@ export interface FormatOptions {
  * @return {String|Number}
  * @api public
  */
-function ms(val: string, options?: ParseOptions): number;
-function ms(val: number, options?: FormatOptions): string;
-function ms(
+export function ms(val: string, options?: ParseOptions): number;
+export function ms(val: number, options?: FormatOptions): string;
+export function ms(
   val: string | number,
   options: ParseOptions | FormatOptions = {}
 ): string | number {

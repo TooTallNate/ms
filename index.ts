@@ -1,4 +1,4 @@
-import * as msImpl from './ms';
+import * as msImpl from './mod';
 
 function ms(val: string, options?: ms.ParseOptions): number;
 function ms(val: number, options?: ms.FormatOptions): string;
